@@ -19,7 +19,7 @@ git+https://github.com/lopezrbn/python_mailer.git
 > 💡 Note: If you prefer using SSH instead of HTTPS, you can use:
 >
 > ```
-> git+ssh://git@github.com/rlopez-bigdecisions/send_email.git
+> git+ssh://git@github.com/rlopez-bigdecisions/python_mailer.git
 > ```
 
 Make sure your system has access to Git and that any authentication requirements (e.g., SSH keys) are configured appropriately.
