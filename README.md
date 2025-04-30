@@ -40,7 +40,7 @@ send_email(
 
 ### 🔐 Credentials file
 
-The credentials to send the email are automatically loaded from a JSON file defined by the `PATH_EMAIL_CREDENTIALS` constant in the module. This file should have the following structure:
+The email credentials are loaded from a JSON file whose path is defined by the environment variable `PATH_EMAIL_CREDENTIALS`. This file should have the following structure:
 
 ```json
 {
@@ -48,6 +48,35 @@ The credentials to send the email are automatically loaded from a JSON file defi
   "password": "your_password_here"
 }
 ```
+
+### ⚙️ Setting the environment variable
+
+You must define the `PATH_EMAIL_CREDENTIALS` variable in your system to point to your credentials file.
+
+#### On Linux/macOS (bash/zsh)
+
+In your terminal:
+
+```bash
+export PATH_EMAIL_CREDENTIALS="/home/youruser/credentials/email_credentials.json"
+```
+
+To make it persistent, add that line to your `~/.bashrc` or `~/.zshrc` file and run:
+
+```bash
+source ~/.bashrc  # or source ~/.zshrc
+```
+
+#### On Windows (PowerShell)
+
+```powershell
+$env:PATH_EMAIL_CREDENTIALS="C:\Users\youruser\credentials\email_credentials.json"
+```
+
+To make it permanent, go to:
+`Control Panel → System → Advanced system settings → Environment Variables`
+
+---
 
 ## 📄 License
 

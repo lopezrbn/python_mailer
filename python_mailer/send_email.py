@@ -1,10 +1,11 @@
+import os
 import json
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-
-PATH_EMAIL_CREDENTIALS = "<path_to_email_credentials>"  # Path to the JSON file with email credentials
+# Load environment variables
+PATH_EMAIL_CREDENTIALS = os.getenv("PATH_EMAIL_CREDENTIALS")    # Path to the JSON file with email credentials
 
 
 def send_email(credentials:dict=PATH_EMAIL_CREDENTIALS, email_to:str="", subject:str="", message:str=""):
