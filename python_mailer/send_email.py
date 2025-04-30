@@ -8,24 +8,24 @@ from email.mime.text import MIMEText
 
 def send_email(
     credentials: Union[str, dict, None] = None,
-    email_to: str = "",
-    subject: str = "",
-    message: str = ""
+    email_to: str = None,
+    subject: str = None,
+    body: str = None
 ):
     """
     Send an email using SMTP with credentials provided via a JSON file,
     a dictionary, or an environment variable.
 
     Parameters:
-        credentials (str | dict | None): Either:
+        - credentials (str | dict | None): Either:
             - A dictionary with 'email_from' and 'password' keys,
             - A path to a JSON file with those keys,
             - Or None to load the path from the environment variable
               'PATH_EMAIL_CREDENTIALS'.
-
-        email_to (str): Recipient email address.
-        subject (str): Email subject.
-        message (str): Plain-text body of the email.
+        - email_to (str): Recipient email address. If not provided,
+          it will be taken from the credentials dictionary.
+        - subject (str): Email subject.
+        - body (str): Plain-text body of the email.
 
     Raises:
         ValueError: If credentials are missing or improperly formatted.
@@ -75,6 +75,10 @@ def send_email(
     # Extract credentials from dictionary
     email_from = credentials["email_from"]
     password = credentials["password"]
+    if not email_to:
+        email_to = credentials.get("email_to", None)
+        if not email_to:
+            raise ValueError("Recipient email address (email_to) is required.")
 
     # Configure SMTP server based on email domain
     if email_from.endswith("@gmail.com"):
@@ -91,7 +95,7 @@ def send_email(
     msg["From"] = email_from
     msg["To"] = email_to
     msg["Subject"] = subject
-    msg.attach(MIMEText(message, "plain"))
+    msg.attach(MIMEText(body, "plain"))
 
     # Send the email using SSL or TLS depending on provider
     try:
