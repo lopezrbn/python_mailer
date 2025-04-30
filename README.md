@@ -38,9 +38,19 @@ send_email(
 )
 ```
 
-### 🔐 Credentials file
+### 🔐 Providing Credentials
 
-The email credentials are loaded from a JSON file whose path is defined by the environment variable `PATH_EMAIL_CREDENTIALS`. This file should have the following structure:
+The function `send_email()` supports multiple methods to provide email credentials:
+
+#### ✅ Option 1: Via environment variable (`PATH_EMAIL_CREDENTIALS`)
+
+Define an environment variable with the path to your credentials JSON file:
+
+```bash
+export PATH_EMAIL_CREDENTIALS="/path/to/email_credentials.json"
+```
+
+Your JSON file must have the following structure:
 
 ```json
 {
@@ -49,32 +59,61 @@ The email credentials are loaded from a JSON file whose path is defined by the e
 }
 ```
 
-### ⚙️ Setting the environment variable
+You can also optionally include a default recipient:
 
-You must define the `PATH_EMAIL_CREDENTIALS` variable in your system to point to your credentials file.
-
-#### On Linux/macOS (bash/zsh)
-
-In your terminal:
-
-```bash
-export PATH_EMAIL_CREDENTIALS="/home/youruser/credentials/email_credentials.json"
+```json
+{
+  "email_from": "your_email@example.com",
+  "password": "your_password_here",
+  "email_to": "recipient@example.com"
+}
 ```
 
-To make it persistent, add that line to your `~/.bashrc` or `~/.zshrc` file and run:
+If no `credentials` argument is passed to the function, it will automatically attempt to load the path from this variable.
 
-```bash
-source ~/.bashrc  # or source ~/.zshrc
+#### ✅ Option 2: Pass the file path directly
+
+```python
+send_email(
+    credentials="/path/to/email_credentials.json",
+    subject="Hello",
+    message="This is a test"
+)
 ```
 
-#### On Windows (PowerShell)
+#### ✅ Option 3: Pass a dictionary
 
-```powershell
-$env:PATH_EMAIL_CREDENTIALS="C:\Users\youruser\credentials\email_credentials.json"
+```python
+send_email(
+    credentials={
+        "email_from": "your_email@example.com",
+        "password": "your_password_here",
+        "email_to": "recipient@example.com"  # Optional
+    },
+    subject="Hello",
+    message="This is a test"
+)
 ```
 
-To make it permanent, go to:
-`Control Panel → System → Advanced system settings → Environment Variables`
+---
+
+### 📥 Handling `email_to`
+
+- The `email_to` parameter can be passed directly to the function.
+- If it is **not provided**, and the loaded credentials dictionary includes an `"email_to"` field, that value will be used as the recipient address.
+- If neither is present, the function will raise a `ValueError`.
+
+---
+
+## ⚠️ Security Note
+
+Do **not** commit any credentials file to your public repositories.  
+Make sure to include your credentials file (e.g. `.env`, `.json`) in `.gitignore`:
+
+```gitignore
+*.json
+.env
+```
 
 ---
 
