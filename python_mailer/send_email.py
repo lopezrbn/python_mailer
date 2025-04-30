@@ -117,7 +117,7 @@ def send_email(
 if __name__ == "__main__":
     send_email(
         credentials="path/to/credentials.json",  # str with path to credentials file or a dictionary with the credentials or None to use env var
-        email_to="example@example.com"
+        email_to="example@example.com",
         subject="Test email",
         message="This is a test email"
     )
